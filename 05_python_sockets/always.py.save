@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+import socket
+import sys
+HOST = sys.argv[1]
+PORT = int(sys.argv[2])
+ADDR = (HOST, PORT)
+def main(): 
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect(ADDR) 
+            answer = 0
+            switch = True
+            while switch == True:
+                msg = s.recv(1024)
+                msg = msg.decode()
+                msg = msg.split()
+                print(msg)
+                if "RCN" in msg:
+                    print(msg)
+                    switch = "False" 
+                    return
+                if "add" in msg:
+                    msg = msg[-1]
+                    answer = int(msg) + 1 
+                    answer = str(answer) + '\n'
+                    print("answer: "  + answer)
+                    answer = answer.encode()
+                    s.send(answer)
+
+main()
